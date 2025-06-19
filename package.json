@@ -1,12 +1,12 @@
 {
   "name": "@rgraue/simple-router",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "simple router",
-  "types": "src/simpleRouter.d.ts",
-  "main": "src/simpleRouter.js",
+  "types": "dist/simpleRouter.d.ts",
+  "main": "dist/simpleRouter.js",
   "scripts": {
     "test": "jest",
-    "build": "tsc --declaration src/simpleRouter.ts"
+    "build": "tsc --declaration src/simpleRouter.ts --outDir dist"
   },
   "author": "rgraue",
   "license": "ISC",
@@ -17,5 +17,8 @@
     "@types/jest": "^30.0.0",
     "jest": "^30.0.1",
     "ts-jest": "^29.4.0"
-  }
+  },
+  "files" : [
+    "dist"
+  ]
 }

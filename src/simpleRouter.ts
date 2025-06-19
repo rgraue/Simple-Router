@@ -1,9 +1,14 @@
 export enum HttpMethod {
-    PUT,
-    POST,
-    GET,
-    DELETE,
-    ANY
+    PUT = "PUT",
+    POST = "POST",
+    PATCH = "PATCH",
+    GET = "GET",
+    DELETE = "DELETE",
+    OPTIONS = "OPTIONS",
+    HEAD = "HEAD",
+    TRACE = "TRACE",
+    CONNECT = "CONNECT",
+    ANY = "ANY"
 }
 
 const WILDCARD = "*";
