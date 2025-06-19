@@ -1,13 +1,14 @@
 {
-  "name": "simple-router",
+  "name": "@rgraue/simple-router",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "simple router",
+  "types": "src/simpleRouter.d.ts",
+  "main": "src/simpleRouter.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc --declaration src/simpleRouter.ts"
   },
-  "keywords": [],
-  "author": "",
+  "author": "rgraue",
   "license": "ISC",
   "dependencies": {
     "typescript": "^5.8.3"
