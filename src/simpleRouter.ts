@@ -56,6 +56,13 @@ class SimpleRouter {
     }
 
     execute = async (method: HttpMethod, url: string, headers?: any, body?: any) => {
+
+        // turn path with host in qualified url
+        // host doesnt matter, just helps with matching later
+        if (url.startsWith("/")) {
+            url = `http://localhost${url}`;
+        }
+
         try {
             var uri = new URL(this.stripTrailingSlash(url));
             var handler = this.handlers.find(handler => 

@@ -9,6 +9,11 @@ const testHandler = async (a: any) => {
 }
 
 describe("simpleRouter", () => {
+
+    beforeEach(() => {
+        simpleFn.mockReset();
+    })
+
     it("should call handler with context", async () => {
         const sr = simpleRouter();
 
@@ -103,5 +108,25 @@ describe("simpleRouter", () => {
 
         expect(result1).toContain("not found.");
         expect(result2).toContain("not found.");
-    })
+    });
+
+    it('should match on just path parts', async () => {
+        const sr = simpleRouter();
+
+        sr.handle(
+            HttpMethod.ANY,
+            "/test/{any}",
+            testHandler
+        );
+
+        sr.handle(
+            HttpMethod.ANY,
+            "/test2",
+            async (x) => {}
+        );
+
+
+        const result = await sr.execute(HttpMethod.ANY, "/test/3?id=2&a=b");
+        expect(simpleFn).toHaveBeenCalledWith(result);
+    });
 });

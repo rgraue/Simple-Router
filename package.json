@@ -1,6 +1,6 @@
 {
   "name": "@rgraue/simple-router",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "simple router",
   "types": "dist/simpleRouter.d.ts",
   "main": "dist/simpleRouter.js",
