@@ -126,10 +126,15 @@ class SimpleRouter {
 
         const matchAgainstParts = matchAgainst.split("/");
 
+        // short curcuit false if length differ and no wild card matcher
+        if (urlParts.length !== matchAgainstParts.length && !matchAgainstParts.includes(WILDCARD)) {
+            return false;
+        }
+
         let isEqual = true;
         matchAgainstParts.forEach((val, i) => {
             // wild card matches everything after as true so assume is match
-            if (val == WILDCARD) {
+            if (val === WILDCARD) {
                 return (isEqual && true);
             }
 

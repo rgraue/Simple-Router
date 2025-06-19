@@ -1,6 +1,6 @@
 import { HttpMethod, RequestContext, simpleRouter } from "./simpleRouter";
 
-var simpleFn = jest.fn();
+const simpleFn = jest.fn();
 
 const testHandler = async (a: any) => {
     console.log("im here", a);
@@ -10,7 +10,7 @@ const testHandler = async (a: any) => {
 
 describe("simpleRouter", () => {
     it("should call handler with context", async () => {
-        var sr = simpleRouter();
+        const sr = simpleRouter();
 
         sr.handle(
             HttpMethod.ANY,
@@ -25,15 +25,15 @@ describe("simpleRouter", () => {
         );
 
 
-        var result = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test/3?id=2&a=b");
+        const result = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test/3?id=2&a=b");
         expect(simpleFn).toHaveBeenCalledWith(result);
     });
 
     it('should call handler with headers and body', async () => {
-        var sr = simpleRouter();
+        const sr = simpleRouter();
 
-        var body = { a:'b' };
-        var headers = { c: 'd' };
+        const body = { a:'b' };
+        const headers = { c: 'd' };
 
         sr.handle(
             HttpMethod.POST,
@@ -41,12 +41,12 @@ describe("simpleRouter", () => {
             testHandler
         );
 
-        var result = await sr.execute(HttpMethod.POST, "http://localhost:8080/test", headers, body);
+        const result = await sr.execute(HttpMethod.POST, "http://localhost:8080/test", headers, body);
         expect(simpleFn).toHaveBeenCalledWith(result);
     });
 
     it ('should call handler with wild card', async () => {
-        var sr = simpleRouter();
+        const sr = simpleRouter();
 
         sr.handle(
             HttpMethod.ANY,
@@ -61,30 +61,47 @@ describe("simpleRouter", () => {
         );
 
 
-        var result = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test/blah/3?id=2&a=b");
+        const result = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test/blah/3?id=2&a=b");
         expect(simpleFn).toHaveBeenCalledWith(result);
     })
 
     it('should call default not found handler if not set', async () => {
-        var sr = simpleRouter();
+        const sr = simpleRouter();
 
-        var result = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test");
+        const result = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test");
         expect(result).toContain("not found.");
     });
 
     it('should call not found handler', async () => {
-        var sr = simpleRouter();
+        const sr = simpleRouter();
 
-        var notFoundFn = jest.fn();
-        var handler = async (ctx: RequestContext) => {
+        const notFoundFn = jest.fn();
+        const handler = async (ctx: RequestContext) => {
             notFoundFn(ctx);
             return "override";
         };
 
         sr.handleNotFound(handler);
 
-        var result = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test");
+        const result = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test");
         expect(notFoundFn).toHaveBeenCalled();
         expect(result).toContain("override");
+    });
+
+    it('should call not found handler if lengths differ and missmastch wildcard', async () => {
+        const sr = simpleRouter();
+
+        sr.handle(
+            HttpMethod.ANY,
+            "/test",
+            testHandler
+        );
+
+
+        const result1 = await sr.execute(HttpMethod.ANY, "http://localhost:8080/test/blah/lots/*");
+        const result2= await sr.execute(HttpMethod.ANY, "http://localhost:8080/test/blah");
+
+        expect(result1).toContain("not found.");
+        expect(result2).toContain("not found.");
     })
 });
